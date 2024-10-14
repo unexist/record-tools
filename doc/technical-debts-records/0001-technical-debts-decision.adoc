@@ -1,4 +1,4 @@
-= 1. Record architecture decisions
+= 1. Record technical debts decisions
 
 |===
 | Decision Date: | ?

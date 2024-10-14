@@ -31,7 +31,7 @@ We will use Architecture Decision Records.
 == Consequences
 
 See Michael Nygard's article, linked above.
-For a lightweight ADR toolset, see Nat Pryce's link:https://github.com/npryce/adr-tools[adr-tools].
+For a lightweight toolset, see Nat Pryce's link:https://github.com/npryce/adr-tools[adr-tools].
 
 == Further Information
 

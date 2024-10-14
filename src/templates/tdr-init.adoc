@@ -40,7 +40,7 @@ We will use Technical Debts Records.
 
 == Further Information
 
-See the article on Heise, linked above.
-For a lightweight ADR toolset, see Michael Stal's link:https://github.com/ms1963/TechnicalDebtRecords/[tdr-tools]
+See the Michael Stal's repository, linked above.
+For a lightweight toolset, see Michael Stal's link:https://github.com/ms1963/TechnicalDebtRecords/[tdr-tools]
 
 == Comments

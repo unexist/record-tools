@@ -1,13 +1,38 @@
 syntax: glob
 
-**/*.iml
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
 
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# Maven
 target/
-.idea/
-.mvn/
+release.properties
 
-todo-service-goadesign/upload.sh
-design.json
-design.layout.json
-
-todo-service-goadesign/gen/
+# Records
+_records.db

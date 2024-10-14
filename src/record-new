@@ -2,21 +2,29 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-## usage: record new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] TITLE_TEXT...
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
+## usage: record new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] RECORD_TYPE TITLE_TEXT...
 ##
-## Creates a new, numbered record.  The TITLE_TEXT arguments are concatenated to
-## form the title of the new ADR.  The ADR is opened for editing in the
-## editor specified by the VISUAL or EDITOR environment variable (VISUAL is
-## preferred; EDITOR is used if VISUAL is not set).  After editing, the
-## file name of the ADR is output to stdout, so the command can be used in
-## scripts.:
+## Creates a new, numbered record identified by the type RECORD_TYPE. The
+## TITLE_TEXT arguments are concatenated to form the title of the new record.
+## The record is opened for editing in the editor specified by the VISUAL or
+## EDITOR environment variable (VISUAL is preferred; EDITOR is used if VISUAL
+## is not set). After editing, the ## file name of the record is output to
+#  stdout, so the command can be used in scripts.
 ##
-## If the ADR directory contains a file `templates/template.md` or
-## `templates/template.md` depending the project file type, this is used as
-## the template for the new ADR.  Otherwise a default template is used that
-## follows the style described by Michael Nygard in this article:
+## If the record directory contains a file `templates/*-template.adoc` or
+## `templates/*-template.md` depending the project file type, this is used as
+## the template for the new record.
 ##
-##   http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions
+## Otherwise default templates are used:
+#
+## ADR: Described by Michael Nygard: http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions
+## TDR: Described by Michael Stal: https://github.com/ms1963/TechnicalDebtRecords/
+##
+## And
 ##
 ## Options:
 ##
@@ -39,15 +47,15 @@ eval "$($(dirname $0)/record-config)"
 ##
 ## E.g. to create a new ADR with the title "Use MySQL Database":
 ##
-##     adr new Use MySQL Database
+##     record-adr new Use MySQL Database
 ##
 ## E.g. to create a new ADR that supercedes ADR 12:
 ##
-##     adr new -s 12 Use PostgreSQL Database
+##     record-adr new -s 12 Use PostgreSQL Database
 ##
 ## E.g. to create a new ADR that supercedes ADRs 3 and 4, and amends ADR 5:
 ##
-##     adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
+##     record-adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
 ##
 
 superceded=()
@@ -72,13 +80,14 @@ while getopts s:l: arg; do
 done
 shift $((OPTIND - 1))
 
-dstdir=$("$record_bin_dir/_record_dir")
-file_type=$("$record_bin_dir/_record_file_type")
+rec_type=
+dstdir=$("$record_bin_dir/_record_dir" "${record_type}")
+file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
 template="$RECORD_TEMPLATE"
 if [ -z $template ]; then
-    template="$dstdir/templates/template.$file_type"
+    template="$dstdir/templates/$rec_type-template.$file_type"
     if [ ! -f "$template" ]; then
-        template="$adr_template_dir/template.$file_type"
+        template="$adr_template_dir/$rec_type-template.$file_type"
     fi
 fi
 
@@ -99,7 +108,7 @@ fi
 newid=$(printf "%04d" $newnum)
 slug=$(echo -n $title | tr -Ccs [:alnum:] - | tr [:upper:] [:lower:] | sed -e 's/[^[:alnum:]]*$//' -e 's/^[^[:alnum:]]*//')
 dstfile=$dstdir/$newid-$slug.$file_type
-date=${ADR_DATE:-$(date +%Y-%m-%d)}
+date=${RECORD_DATE:-$(date +%Y-%m-%d)}
 
 mkdir -p $dstdir
 cat $template | sed \
@@ -110,9 +119,9 @@ cat $template | sed \
     >$dstfile
 
 for target in "${superceded[@]}"; do
-    "$record_bin_dir/_record_add_link" "$target" "Superseded by" "$dstfile"
-    "$record_bin_dir/_record_remove_status" "accepted" "$target"
-    "$record_bin_dir/_record_add_link" "$dstfile" "Supersedes" "$target"
+    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "Superseded by" "$dstfile"
+    "$record_bin_dir/_record_remove_status" "${record_type}" "accepted" "$target"
+    "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "Supersedes" "$target"
 done
 
 for l in "${links[@]}"; do
@@ -120,8 +129,8 @@ for l in "${links[@]}"; do
     forward_link="$(echo $l | cut -d : -f 2)"
     reverse_link="$(echo $l | cut -d : -f 3)"
 
-    "$record_bin_dir/_record_add_link" "$dstfile" "$forward_link" "$target"
-    "$record_bin_dir/_record_add_link" "$target" "$reverse_link" "$dstfile"
+    "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "$forward_link" "$target"
+    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$dstfile"
 done
 
 ${VISUAL:-${EDITOR:-true}} $dstfile

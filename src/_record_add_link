@@ -2,11 +2,15 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-source=$("$record_bin_dir/_record_file" "${1:?SOURCE}")
-link_type="${2:?LINK TYPE}"
-target=$("$record_bin_dir/_record_file" "${3:?TARGET}")
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
 
-target_title="$("$record_bin_dir/_record_title" "$target")"
+source=$("$record_bin_dir/_record_file" "${record_type}" "${1:?SOURCE}")
+link_type="${2:?LINK TYPE}"
+target=$("$record_bin_dir/_record_file" "${record_type}" "${3:?TARGET}")
+
+target_title="$("$record_bin_dir/_record_title" "${record_type}" "$target")"
 
 awk -v link_type="$link_type" -v target="$(basename $target)" -v target_title="$target_title" '
 	BEGIN {

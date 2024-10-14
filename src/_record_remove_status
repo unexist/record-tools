@@ -2,8 +2,12 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 current_status=${1:?FROM}
-file=$("$record_bin_dir/_record_file" "${2:?FILE}")
+file=$("$record_bin_dir/_record_file" "${record_type}" "${2:?FILE}")
 
 awk -v current_status="$current_status" '
 	BEGIN {

@@ -2,6 +2,10 @@
 set -e
 eval "$("$(dirname "$0")"/adr-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 dbname=_records.db
 
 ## usage: record generate database

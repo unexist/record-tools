@@ -2,6 +2,10 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 ## usage: record init [-t FILETYPE] [DIRECTORY]
 ##
 ## Initialises the directories of the records records:
@@ -42,12 +46,13 @@ shift $((OPTIND - 1))
 
 echo "$file_type" >.record-file-type
 if [ ! -z $1 ]; then
-    mkdir -p "$1/architecture-decision-records" "$1/technical-debts-records"
-    echo "$1" >.record-dir
+    mkdir -p "$1/$record_adr_dir" "$1/$record_tdr_dir"
+    echo "$1/$record_adr_dir" >.record-adr-dir
+    echo "$1/$record_tdr_dir" >.record-tdr-dir
 fi
 
 VISUAL=true RECORD_TEMPLATE="$record_template_dir/adr-init.$file_type" \
-    "$record_bin_dir/record-new" record-architecture-decisions
+    "$record_bin_dir/record-new" adr architecture-decisions-record
 
 VISUAL=true RECORD_TEMPLATE="$record_template_dir/tdr-init.$file_type" \
-    "$record_bin_dir/record-new" record-architecture-decisions
+    "$record_bin_dir/record-new" tdr technical-debts-record

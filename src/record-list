@@ -2,11 +2,15 @@
 set -e
 eval "$("$(dirname "$0")"/record-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 ## usage: record list RECORD_TYPE
 ##
 ## Lists all the records
 
-record_dir="$("$record_bin_dir/_record_dir")"
+record_dir="$("$record_bin_dir/_record_dir" "${record_type}")"
 
 if [ -d $record_dir ]; then
     find $record_dir | grep -E "^$record_dir/[0-9]+-[^/]*\\.$record_file_type" | sort

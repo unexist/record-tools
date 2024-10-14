@@ -2,4 +2,8 @@
 set -e
 eval "$("$(dirname "$0")"/record-config)"
 
-"$record_bin_dir/record-list" | grep "$1" | head -1
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
+"$record_bin_dir/record-list" "${record_type}" | grep "$1" | head -1

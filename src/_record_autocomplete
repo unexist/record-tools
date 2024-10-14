@@ -1,8 +1,12 @@
 #!/bin/bash
 eval "$($(dirname $0)/adr-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 cmds=("$@")
-available_commands=$($record_bin_dir/_record_commands | sort)
+available_commands=$($record_bin_dir/_record_commands "${record_type}" | sort)
 
 if ((${#@} <= 2)); then
     suggestions=($(compgen -W "${available_commands}" -- "$2"))

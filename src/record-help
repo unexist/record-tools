@@ -2,7 +2,11 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-## usage: record help [COMMAND [SUBCOMMAND...]]
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
+## usage: record help RECORD_TYPE [COMMAND [SUBCOMMAND...]]
 ##
 ## If COMMAND and any SUBCOMMANDs are given, displays help for that command.
 ## Otherwise lists the available commands.
@@ -13,4 +17,4 @@ eval "$($(dirname $0)/record-config)"
 
 pager="${RECORD_PAGER:-${PAGER:-more}}"
 
-("$record_bin_dir/_record_help" "$@") | $pager
+("$record_bin_dir/_record_help" "${record_type}" "$@") | $pager

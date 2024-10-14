@@ -2,6 +2,10 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 title="$1"
 link="$2"
 file_type="$($record_bin_dir/_record_file_type)"

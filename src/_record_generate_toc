@@ -2,6 +2,10 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
+# Handle record type
+record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+shift
+
 ## usage: record generate toc [-i INTRO] [-o OUTRO] [-p LINK_PREFIX]
 ##
 ## Generates a table of contents in project format (Asciidoc or

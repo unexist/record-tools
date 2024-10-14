@@ -8,7 +8,7 @@ shift
 
 source "$(dirname $0)/_record_database"
 
-## usage: adr generate rss
+## usage: record generate rss RECORD_TYPE
 ##
 ## Generates a rss feed with contents
 
@@ -28,12 +28,12 @@ cat <<EOF
 //////////////////////////////////////////////////////////////
 -->
 
-  <title>List of ADR</title>
-  <description>List of all recorded ADR of the WPLAT project</description>
+  <title>List of all ${record_type} records</title>
+  <description>List of all created ${record_type} records</description>
   <updated>$(date -u +'%Y-%m-%d %H:%M')</updated>
-  <generator>adr-tools</generator>
+  <generator>record-tools</generator>
   <author>
-    <name>christoph.kappel@vanderlande.com</name>
+    <name>christoph@unexist.dev</name>
   </author>
 EOF
 
@@ -44,9 +44,10 @@ SELECT
   '<link>' || link || '</link>',
   '<id>' || id || '</id>',
   '<updated>' || proposed || '</updated>',
-  '<summary>' || priority || '</summary>',
+  '<summary>' || prio_or_sever || '</summary>',
   '<content>Status: ' || status || '</content></entry>'
-FROM adr
+FROM records
+WHERE record_type = '${record_type}'
 EOF
 )) | tr -d "|"
 

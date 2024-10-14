@@ -6,7 +6,7 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
 shift
 
-## usage: record generate toc [-i INTRO] [-o OUTRO] [-p LINK_PREFIX]
+## usage: record generate toc [-i INTRO] [-o OUTRO] [-p LINK_PREFIX] RECORD_TYPE
 ##
 ## Generates a table of contents in project format (Asciidoc or
 ## Markdown) to stdout.
@@ -57,14 +57,14 @@ if [ ! -z $intro ]; then
     echo
 fi
 
-for f in $("$record_bin_dir/record-list"); do
-    title=$("$record_bin_dir/_record_title" $f)
+for f in $("$record_bin_dir/record-list" "${record_type}"); do
+    title=$("$record_bin_dir/_record_title" "${record_type}" $f)
     link=${link_prefix}$(basename $f)
 
-    echo "* $("$record_bin_dir/_record_text_link" "$title" "$link")"
+    echo "* $("$record_bin_dir/_record_text_link" "${record_type}" "${title}" "${link}")"
 done
 
-if [ ! -z $outro ]; then
+if [ ! -z "${outro}" ]; then
     echo
-    cat "$outro"
+    cat "${outro}"
 fi

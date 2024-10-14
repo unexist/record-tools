@@ -19,17 +19,17 @@ function listByFieldWhereX() {
 [cols="3,1,1,1,1", options="header"]
 |===
 |Name|Proposed Date|Decision Date|Status|Priority
-$(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, priority || char(13) FROM adr WHERE ${2}")
+$(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
 |===
 
 EOF
 }
 
-function includeAllADRs() {
+function includeAllRecords() {
     cat <<EOF
-== ADR List
+== Record List
 
-$(selectFromDatabase "SELECT 'include::decisions/' || link || '[leveloffset=2]' || char(13) || char(13) FROM adr")
+$(selectFromDatabase "SELECT 'include::decisions/' || link || '[leveloffset=2]' || char(13) || char(13) FROM records WHERE record_type = '${record_type}' ORDER BY id")
 
 EOF
 }
@@ -46,31 +46,33 @@ cat <<EOF
 //////////////////////////////////////////////////////////////
 EOF
 
+record_type_up=$(echo $record_type | tr '[:lower:]' '[:upper:]')
+
 # List by SLA
-listByFieldWhereX "List of all ADR due in 14 day" "status = 'proposed' and date('now') < date(proposed, '+14 day')"
+listByFieldWhereX "List of all ${record_type_up} due in 14 day" "status = 'proposed' and date('now') < date(proposed, '+14 day')"
 
 # List by status
-listByFieldWhereX "List of all drafted ADR" "status = 'drafted'"
+listByFieldWhereX "List of all drafted ${record_type_up}" "status = 'drafted'"
 
-listByFieldWhereX "List of all proposed ADR" "status = 'proposed'"
+listByFieldWhereX "List of all proposed ${record_type_up}" "status = 'proposed'"
 
-listByFieldWhereX "List of all accepted ADR" "status = 'accepted'"
+listByFieldWhereX "List of all accepted ${record_type_up}" "status = 'accepted'"
 
-listByFieldWhereX "List of all superseded ADR" "status = 'superseded'"
+listByFieldWhereX "List of all superseded ${record_type_up}" "status = 'superseded'"
 
-listByFieldWhereX "List of all rejected ADR" "status = 'rejected'"
+listByFieldWhereX "List of all rejected ${record_type_up}" "status = 'rejected'"
 
 # List by priority
-listByFieldWhereX "List of all ADR with low priority" "priority = 'low'"
+listByFieldWhereX "List of all ${record_type_up} with low priority" "prio_or_sever = 'low'"
 
-listByFieldWhereX "List of all ADR with medium priority" "priority = 'medium'"
+listByFieldWhereX "List of all ${record_type_up} with medium priority" "prio_or_sever = 'medium'"
 
-listByFieldWhereX "List of all ADR with high priority" "priority = 'high'"
+listByFieldWhereX "List of all ${record_type_up} with high priority" "prio_or_sever = 'high'"
 
 # All
-listByFieldWhereX "List of all ADR" "status = status"
+listByFieldWhereX "List of all ${record_type_up}" "status = status"
 
-includeAllADRs
+includeAllRecords
 
 # Use last-update-label of generated index
 cat <<EOF

@@ -1,61 +1,54 @@
 #!/bin/bash
 set -e
-eval "$("$(dirname "$0")"/adr-config)"
-
-# Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
-shift
+eval "$("$(dirname "$0")"/record-config)"
 
 dbname=_records.db
 
-## usage: record generate database
+## usage: record generate database RECORD_TYPE
 ##
 ## Generates a database with all fields from the record
 
 function createDatabase() {
     cat <<EOF | sqlite3 "$dbname"
-DROP TABLE IF EXISTS adr;
-CREATE TABLE adr(
+DROP TABLE IF EXISTS records;
+CREATE TABLE records(
   id int,
+  record_type varchar,
   title varchar,
-  link varchar,:
+  link varchar,
   proposed datetime,
   decision datetime,
   status varchar,
-  priority varchar
+  prio_or_sever varchar
 );
-
-DROP TABLE IF EXISTS tdr;
-CREATE TABLE tdr(
-  id int,
-  title varchar,
-  link varchar,:
-  proposed datetime,
-  decision datetime,
-  status varchar,
-  priority varchar
-);
-EOF:
+EOF
 }
 
 function insertIntoDatabase() {
   cat <<EOF | sqlite3 "$dbname"
-INSERT INTO adr VALUES(${1}, '${2}', '${3}', '${4}', '${5}', '${6}', '${7}');
+INSERT INTO records VALUES(${1}, '${2}', '${3}', '${4}', '${5}', '${6}', '${7}', '${8}');
 EOF
 }
 
 function populateDatabase() {
-    for file in $("$record_bin_dir/record-list"); do
-        local id=$("$record_bin_dir/_record_id" $file)
-        local title=$("$record_bin_dir/_record_title" $file)
-        local link=${link_prefix}$(basename $file)
+    for rec_type in adr tdr; do
+        for file in $("$record_bin_dir/record-list" "${rec_type}"); do
+            local id=$("$record_bin_dir/_record_id" "${rec_type}" ${file})
+            local title=$("$record_bin_dir/_record_title" "${rec_type}" ${file})
+            local link=${link_prefix}$(basename ${file})
 
-        local proposed=$("$record_bin_dir/_record_field" "Proposed Date" "$link")
-        local decision=$("$record_bin_dir/_record_field" "Decision Date" "$link")
-        local status=$("$record_bin_dir/_record_field" "Status" "$link")
-        local priority=$("$record_bin_dir/_record_field" "Priority" "$link")
+            local proposed=$("$record_bin_dir/_record_field" "${rec_type}" "Proposed Date" "${link}")
+            local decision=$("$record_bin_dir/_record_field" "${rec_type}" "Decision Date" "${link}")
+            local status=$("$record_bin_dir/_record_field" "${rec_type}" "Status" "${link}")
 
-        insertIntoDatabase "$id" "$title" "$link" "$proposed" "$decision" "$status" "$priority"
+            local prio_or_sever=$("$record_bin_dir/_record_field" "Priority" "${link}")
+
+            if [ -z "${prio_or_sever}" ]; then
+                prio_of_sever=$("$record_bin_dir/_record_field" "Severity" "${link}")
+            fi
+
+            insertIntoDatabase "$id" "${rec_type}" "${title}" "${link}" "${proposed}" "${decision}" "${status}" "${prio_of_sever}"
+        done
     done
 }
 

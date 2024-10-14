@@ -2,8 +2,10 @@
 
 | Meta           | Value                                     |
 |----------------| ----------------------------------------- |
+| Proposed Date: | DATE                                      |
 | Decision Date: | ?                                         |
-| Author:        | NAMES                                     |
+| Proposer:      | NAMES                                     |
+| Deciders:      | NAMES                                     |
 | Status:        | STATUS                                    |
 | Issues:        | ?                                         |
 | References:    |                                           |

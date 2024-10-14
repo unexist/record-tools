@@ -1,8 +1,10 @@
 = NUMBER. TITLE
 
 |===
-| Decision Date: | DATE
-| Author:        | NAMES
+| Proposed Date: | DATE
+| Decision Date: | ?
+| Proposer:      | NAMES
+| Deciders:      | ?
 | Status:        | STATUS
 | Issues:        | ?
 | References:    |

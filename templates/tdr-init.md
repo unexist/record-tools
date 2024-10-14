@@ -29,8 +29,7 @@ What is the proposed solution to this context.
 
 ## Decision
 
-We will use Technical Debts Records, as 
-[described by Heise (german article)](https://www.heise.de/blog/Technical-Debt-Records-Dokumentation-technischer-Schulden-9876115.html).
+We will use Technical Debts Records, as [described by Michael Stal](https://github.com/ms1963/TechnicalDebtRecords/).
 
 ## Cost of Delay
 

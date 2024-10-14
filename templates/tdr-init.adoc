@@ -28,7 +28,7 @@ What is the proposed solution to this context.
 
 == Decision
 
-We will use Technical Debts Records, as https://www.heise.de/blog/Technical-Debt-Records-Dokumentation-technischer-Schulden-9876115.html[described by Heise (german article)].
+We will use Technical Debts Records, as link:https://github.com/ms1963/TechnicalDebtRecords/[described by Michael Stal].
 
 == Cost of Delay
 
@@ -39,6 +39,6 @@ We will use Technical Debts Records, as https://www.heise.de/blog/Technical-Debt
 == Further Information
 
 See the article on Heise, linked above.
-For a lightweight ADR toolset, see Michael Stal's https://github.com/ms1963/TechnicalDebtRecords/[tdr-tools]
+For a lightweight ADR toolset, see Michael Stal's link:https://github.com/ms1963/TechnicalDebtRecords/[tdr-tools]
 
 == Comments

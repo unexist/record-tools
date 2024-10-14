@@ -6,4 +6,5 @@ This project contains combined tools for Combined tools for Architecture Decisio
 
 - https://github.com/unexist/adr-tools
 - https://github.com/npryce/adr-tools
+- https://github.com/ms1963/TechnicalDebtRecords
 - https://www.heise.de/blog/Technical-Debt-Records-Dokumentation-technischer-Schulden-9876115.html

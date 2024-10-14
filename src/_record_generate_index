@@ -8,12 +8,15 @@ shift
 
 source "$(dirname $0)/_record_database"
 
+file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
+
 ## usage: adr generate index
 ##
 ## Generates an index and a table of contents in asciidoc
 
 function listByFieldWhereX() {
-    cat <<EOF
+    if [ "adoc" = "${file_type}" ]; then
+        cat <<EOF
 == $1
 
 [cols="3,1,1,1,1", options="header"]
@@ -23,15 +26,27 @@ $(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status,
 |===
 
 EOF
+    else
+        cat <<EOF
+## $1
+
+|Name|Proposed Date|Decision Date|Status|Priority
+$(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
+|===
+
+EOF
+    fi
 }
 
 function includeAllRecords() {
-    cat <<EOF
-== Record List
+    if [ "adoc" = "${file_type}" ]; then
+        cat <<EOF
+== Full record List
 
 $(selectFromDatabase "SELECT 'include::decisions/' || link || '[leveloffset=2]' || char(13) || char(13) FROM records WHERE record_type = '${record_type}' ORDER BY id")
 
 EOF
+    fi
 }
 
 #################

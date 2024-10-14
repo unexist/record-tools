@@ -4,4 +4,4 @@
 basedir=$(cd -L "$(dirname "$0")" >/dev/null 2>&1 && pwd -L)
 
 echo 'record_bin_dir="'"${basedir}"'"'
-echo 'record_template_dir="'"${basedir}"'"'
+echo 'record_template_dir="'"${basedir}/templates"'"'

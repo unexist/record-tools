@@ -25,4 +25,4 @@ while [ $(absdir $reldir) != / ]; do
         reldir=$reldir/..
     fi
 done
-echo md
+echo adoc

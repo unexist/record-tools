@@ -80,14 +80,13 @@ while getopts s:l: arg; do
 done
 shift $((OPTIND - 1))
 
-rec_type=
 dstdir=$("$record_bin_dir/_record_dir" "${record_type}")
 file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
 template="$RECORD_TEMPLATE"
 if [ -z $template ]; then
-    template="$dstdir/templates/$rec_type-template.$file_type"
+    template="${dstdir}/templates/${record_type}-template.${file_type}"
     if [ ! -f "$template" ]; then
-        template="$adr_template_dir/$rec_type-template.$file_type"
+        template="${record_template_dir}/${record_type}-template.${file_type}"
     fi
 fi
 

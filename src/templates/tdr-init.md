@@ -25,11 +25,13 @@ We need to record the technical debts made on this project.
 
 ## Proposed Solution
 
-What is the proposed solution to this context.
+Technical Debts Records as
+[described by Michael Stal](https://github.com/ms1963/TechnicalDebtRecords/).
+might help us as a format.
 
 ## Decision
 
-We will use Technical Debts Records, as [described by Michael Stal](https://github.com/ms1963/TechnicalDebtRecords/).
+We will use Technical Debts Records.
 
 ## Cost of Delay
 

@@ -1,6 +1,6 @@
 = Record tools
 
-This project contains a combination of the ADR-tools and the TDR idea
+This project contains combined tools for Combined tools for Architecture Decision Records and Technical Debts Records.
 
 == Links
 

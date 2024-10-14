@@ -1,0 +1,13 @@
+syntax: glob
+
+**/*.iml
+
+target/
+.idea/
+.mvn/
+
+todo-service-goadesign/upload.sh
+design.json
+design.layout.json
+
+todo-service-goadesign/gen/

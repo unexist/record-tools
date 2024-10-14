@@ -1,0 +1,9 @@
+= Record tools
+
+This project contains a combination of the ADR-tools and the TDR idea
+
+== Links
+
+- https://github.com/unexist/adr-tools
+- https://github.com/npryce/adr-tools
+- https://www.heise.de/blog/Technical-Debt-Records-Dokumentation-technischer-Schulden-9876115.html

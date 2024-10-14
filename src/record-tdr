@@ -5,7 +5,7 @@ eval "$($(dirname $0)/record-config)"
 cmd=$record_bin_dir/record-$1
 
 if [ -x "$cmd" ]; then
-    "$cmd" "${@:2}"
+    "$cmd" tdr "${@:2}"
 else
     "$record_bin_dir"/record-help
     exit 1

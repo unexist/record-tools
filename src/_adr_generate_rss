@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+eval "$("$(dirname "$0")"/adr-config)"
+
+source "$(dirname $0)/_adr_database"
+
+## usage: adr generate rss
+##
+## Generates a rss feed with contents
+
+#################
+# Actual output #
+#################
+
+cat <<EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<!--
+//////////////////////////////////////////////////////////////
+/                                                            /
+/ Do not change this file - all changes will be overwritten! /
+/                                                            /
+//////////////////////////////////////////////////////////////
+-->
+
+  <channel>
+    <title>List of ADR</title>
+    <description>List of all recorded ADR of the WPLAT project</description>
+    <ttl>240</ttl>
+    <lastBuildDate>$(date -u +'%Y-%m-%d %H:%M')</lastBuildDate>
+    <generator>adr-tools</generator>
+    <webmaster>christoph.kappel@vanderlande.com</webmaster>
+EOF
+
+echo $(selectFromDatabase $(cat <<EOF
+SELECT
+  '<item><title>' || title || '</title>',
+  '<link>' || link || '</link>',
+  '<category>' || priority || '</category>',
+  '<pubDate>' || proposed || '</pubDate>',
+  '<description>Status: ' || status || '</description></item>'
+FROM adr
+EOF
+)) | tr -d "|"
+
+cat <<EOF
+  </channel>
+</rss>
+EOF

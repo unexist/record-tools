@@ -48,7 +48,7 @@ for arg; do
 done
 
 cat <<EOF
-$("$record_bin_dir/_record_text_header" 1 'Architecture Decision Records')
+$("$record_bin_dir/_record_text_header" "${record_type}" 'Architecture Decision Records')
 
 EOF
 
@@ -58,8 +58,8 @@ if [ ! -z $intro ]; then
 fi
 
 for f in $("$record_bin_dir/record-list" "${record_type}"); do
-    title=$("$record_bin_dir/_record_title" "${record_type}" $f)
-    link=${link_prefix}$(basename $f)
+    title=$("$record_bin_dir/_record_title" "${record_type}" ${f})
+    link=${link_prefix}$(basename ${f})
 
     echo "* $("$record_bin_dir/_record_text_link" "${record_type}" "${title}" "${link}")"
 done

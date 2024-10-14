@@ -4,6 +4,7 @@ eval "$("$(dirname "$0")"/record-config)"
 
 # Handle record type
 record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type_up=$(echo $record_type | tr '[:lower:]' '[:upper:]')
 shift
 
 source "$(dirname $0)/_record_database"
@@ -60,8 +61,6 @@ cat <<EOF
 /                                                            /
 //////////////////////////////////////////////////////////////
 EOF
-
-record_type_up=$(echo $record_type | tr '[:lower:]' '[:upper:]')
 
 # List by SLA
 listByFieldWhereX "List of all ${record_type_up} due in 14 day" "status = 'proposed' and date('now') < date(proposed, '+14 day')"

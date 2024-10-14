@@ -54,8 +54,13 @@ $("$record_bin_dir/_record_text_header" "${record_type}" 1 "${record_type_up} re
 
 EOF
 
-if [ ! -z $intro ]; then
-    cat "${intro}"
+if [ ! -z "${intro}" ]; then
+    # Check whether argument is a file?
+    if [ -f "${intro}" ]; then
+        cat "${intro}"
+    else
+        echo "${intro}"
+    fi
     echo
 fi
 
@@ -68,5 +73,10 @@ done
 
 if [ ! -z "${outro}" ]; then
     echo
-    cat "${outro}"
+    # Check whether argument is a file?
+    if [ -f "${outro}" ]; then
+        cat "${outro}"
+    else
+        echo "${outro}"
+    fi
 fi

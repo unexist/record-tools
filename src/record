@@ -4,8 +4,7 @@ eval "$($(dirname $0)/record-config)"
 
 cmd=$record_bin_dir/record-$1
 
-if [ -x "$cmd" ]
-then
+if [ -x "$cmd" ]; then
     "$cmd" "${@:2}"
 else
     "$record_bin_dir"/record-help

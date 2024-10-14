@@ -2,16 +2,16 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-## usage: adr link SOURCE LINK TARGET REVERSE-LINK
+## usage: record link SOURCE LINK TARGET REVERSE-LINK
 ##
-## Creates a link between two ADRs, from SOURCE to TARGET new.
-## SOURCE and TARGET are both a reference (number or partial filename) to an ADR
+## Creates a link between two records, from SOURCE to TARGET new.
+## SOURCE and TARGET are both a reference (number or partial filename) to an record
 ## LINK is the description of the link created in the SOURCE.
 ## REVERSE-LINK is the description of the link created in the TARGET
 ##
-## E.g. to create link ADR 12 to ADR 10
+## E.g. to create link record 12 to record 10
 ##
-##     adr link 12 Amends 10 "Amended by"
+##     record link 12 Amends 10 "Amended by"
 ##
 
 source="${1:?SOURCE}"

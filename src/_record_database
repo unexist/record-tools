@@ -2,12 +2,14 @@
 set -e
 eval "$("$(dirname "$0")"/adr-config)"
 
-## usage: adr generate database
+dbname=_records.db
+
+## usage: record generate database
 ##
-## Generates a database with all fields from the ADR
+## Generates a database with all fields from the record
 
 function createDatabase() {
-  cat <<EOF | sqlite3 _adr.db
+    cat <<EOF | sqlite3 "$dbname"
 DROP TABLE IF EXISTS adr;
 CREATE TABLE adr(
   id int,
@@ -18,33 +20,43 @@ CREATE TABLE adr(
   status varchar,
   priority varchar
 );
-EOF
+
+DROP TABLE IF EXISTS tdr;
+CREATE TABLE tdr(
+  id int,
+  title varchar,
+  link varchar,:
+  proposed datetime,
+  decision datetime,
+  status varchar,
+  priority varchar
+);
+EOF:
 }
 
 function insertIntoDatabase() {
-  cat <<EOF | sqlite3 _adr.db
+  cat <<EOF | sqlite3 "$dbname"
 INSERT INTO adr VALUES(${1}, '${2}', '${3}', '${4}', '${5}', '${6}', '${7}');
 EOF
 }
 
 function populateDatabase() {
-  for file in $("$adr_bin_dir/adr-list")
-  do
-      local id=$("$adr_bin_dir/_adr_id" $file)
-      local title=$("$adr_bin_dir/_adr_title" $file)
-      local link=${link_prefix}$(basename $file)
+    for file in $("$record_bin_dir/record-list"); do
+        local id=$("$record_bin_dir/_record_id" $file)
+        local title=$("$record_bin_dir/_record_title" $file)
+        local link=${link_prefix}$(basename $file)
 
-      local proposed=$("$adr_bin_dir/_adr_field" "Proposed Date" "$link")
-      local decision=$("$adr_bin_dir/_adr_field" "Decision Date" "$link")
-      local status=$("$adr_bin_dir/_adr_field" "Status" "$link")
-      local priority=$("$adr_bin_dir/_adr_field" "Priority" "$link")
+        local proposed=$("$record_bin_dir/_record_field" "Proposed Date" "$link")
+        local decision=$("$record_bin_dir/_record_field" "Decision Date" "$link")
+        local status=$("$record_bin_dir/_record_field" "Status" "$link")
+        local priority=$("$record_bin_dir/_record_field" "Priority" "$link")
 
-      insertIntoDatabase "$id" "$title" "$link" "$proposed" "$decision" "$status" "$priority"
-  done
+        insertIntoDatabase "$id" "$title" "$link" "$proposed" "$decision" "$status" "$priority"
+    done
 }
 
 function selectFromDatabase() {
-  cat <<EOF | sqlite3 _adr.db
+    cat <<EOF | sqlite3 "$dbname"
 $*
 EOF
 }

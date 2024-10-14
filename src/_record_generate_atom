@@ -33,7 +33,8 @@ cat <<EOF
   </author>
 EOF
 
-echo $(selectFromDatabase $(cat <<EOF
+echo $(selectFromDatabase $(
+    cat <<EOF
 SELECT
   '<entry><title>' || title || '</title>',
   '<link>' || link || '</link>',

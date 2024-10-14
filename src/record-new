@@ -2,9 +2,9 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-## usage: adr new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] TITLE_TEXT...
+## usage: record new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] TITLE_TEXT...
 ##
-## Creates a new, numbered ADR.  The TITLE_TEXT arguments are concatenated to
+## Creates a new, numbered record.  The TITLE_TEXT arguments are concatenated to
 ## form the title of the new ADR.  The ADR is opened for editing in the
 ## editor specified by the VISUAL or EDITOR environment variable (VISUAL is
 ## preferred; EDITOR is used if VISUAL is not set).  After editing, the
@@ -53,48 +53,43 @@ eval "$($(dirname $0)/record-config)"
 superceded=()
 links=()
 
-while getopts s:l: arg
-do
+while getopts s:l: arg; do
     case "$arg" in
-        s)
-            superceded+=("$OPTARG")
-            ;;
-		l)
-			links+=("$OPTARG")
-			;;
-        --)
-            break
-            ;;
-        *)
-            echo "Not implemented: $arg" >&2
-            exit 1
-            ;;
+    s)
+        superceded+=("$OPTARG")
+        ;;
+    l)
+        links+=("$OPTARG")
+        ;;
+    --)
+        break
+        ;;
+    *)
+        echo "Not implemented: $arg" >&2
+        exit 1
+        ;;
     esac
 done
-shift $((OPTIND-1))
+shift $((OPTIND - 1))
 
 dstdir=$("$record_bin_dir/_record_dir")
 file_type=$("$record_bin_dir/_record_file_type")
 template="$RECORD_TEMPLATE"
-if [ -z $template ]
-then
+if [ -z $template ]; then
     template="$dstdir/templates/template.$file_type"
-    if [ ! -f "$template" ]
-    then
+    if [ ! -f "$template" ]; then
         template="$adr_template_dir/template.$file_type"
     fi
 fi
 
 title="$@"
 
-if [ -z "$title" ]
-then
+if [ -z "$title" ]; then
     echo ERROR: no title given
     exit 1
 fi
 
-if [ -d $dstdir ]
-then
+if [ -d $dstdir ]; then
     maxid=$(ls $dstdir | grep -Eo '^[0-9]+' | sed -e 's/^0*//' | sort -rn | head -1)
     newnum=$(($maxid + 1))
 else
@@ -112,23 +107,21 @@ cat $template | sed \
     -e "s|TITLE|$title|" \
     -e "s|DATE|$date|" \
     -e "s|STATUS|drafted|" \
-    > $dstfile
+    >$dstfile
 
-for target in "${superceded[@]}"
-do
-	"$record_bin_dir/_record_add_link" "$target" "Superseded by" "$dstfile"
-	"$record_bin_dir/_record_remove_status" "accepted" "$target"
-	"$record_bin_dir/_record_add_link" "$dstfile" "Supersedes" "$target"
+for target in "${superceded[@]}"; do
+    "$record_bin_dir/_record_add_link" "$target" "Superseded by" "$dstfile"
+    "$record_bin_dir/_record_remove_status" "accepted" "$target"
+    "$record_bin_dir/_record_add_link" "$dstfile" "Supersedes" "$target"
 done
 
-for l in "${links[@]}"
-do
-	target="$(echo $l | cut -d : -f 1)"
-	forward_link="$(echo $l | cut -d : -f 2)"
-	reverse_link="$(echo $l | cut -d : -f 3)"
+for l in "${links[@]}"; do
+    target="$(echo $l | cut -d : -f 1)"
+    forward_link="$(echo $l | cut -d : -f 2)"
+    reverse_link="$(echo $l | cut -d : -f 3)"
 
-	"$record_bin_dir/_record_add_link" "$dstfile" "$forward_link" "$target"
-	"$record_bin_dir/_record_add_link" "$target" "$reverse_link" "$dstfile"
+    "$record_bin_dir/_record_add_link" "$dstfile" "$forward_link" "$target"
+    "$record_bin_dir/_record_add_link" "$target" "$reverse_link" "$dstfile"
 done
 
 ${VISUAL:-${EDITOR:-true}} $dstfile

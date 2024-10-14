@@ -6,9 +6,8 @@ title="$1"
 link="$2"
 file_type="$($record_bin_dir/_record_file_type)"
 
-if [ "$file_type" = "md" ]
-then
-  printf "[%s](%s)" "$title" "$link"
+if [ "$file_type" = "md" ]; then
+    printf "[%s](%s)" "$title" "$link"
 else
-  printf "link:%s[%s]" "$link" "$title"
+    printf "link:%s[%s]" "$link" "$title"
 fi

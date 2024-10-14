@@ -4,49 +4,50 @@ eval "$($(dirname $0)/record-config)"
 
 ## usage: record init [-t FILETYPE] [DIRECTORY]
 ##
-## Initialises the directory of architecture decision records:
+## Initialises the directories of the records records:
 ##
-##  * creates a subdirectory of the current working directory
-##  * creates the first ADR in that subdirectory, recording the decision to
-##    record architectural decisions with ADRs.
+##  * creates both subdirectory of the current working directory
+##  * creates the first records in that subdirectory, recording the decision to
+##    record decisions with these tools.
 ##
-## If the DIRECTORY is not given, the ADRs are stored in the directory `doc/adr`.
+## If the DIRECTORY is not given, the records are stored in the directory `doc/architecture-decision-records` resp
+## `doc/technical-debts-records`.
 ##
 ## Options:
 ##
 ## -t FILE_TYPE
 ##                 Uses the specified file type.
-##                 FILE_TYPE is md (for markdown, default) or adoc (asciidoc).
-file_type='md'
+##                 FILE_TYPE is adoc (for Asciidoc, default) or md (Markdown).
+file_type='adoc'
 
-while getopts t: arg
-do:
+while getopts t: arg; do
     case "$arg" in
-		    t)
-		        if [ "$OPTARG" != "md" ] && [ "$OPTARG" != "adoc" ]
-		        then
-              echo "Unsupported file type: $OPTARG" >&2
-              exit 1
-		        fi
-			      file_type="$OPTARG"
-			      ;;
-        --)
-            break
-            ;;
-        *)
-            echo "Not implemented: $arg" >&2
+    t)
+        if [ "$OPTARG" != "md" ] && [ "$OPTARG" != "adoc" ]; then
+            echo "Unsupported file type: $OPTARG" >&2
             exit 1
-            ;;
+        fi
+        file_type="$OPTARG"
+        ;;
+    --)
+        break
+        ;;
+    *)
+        echo "Not implemented: $arg" >&2
+        exit 1
+        ;;
     esac
 done
-shift $((OPTIND-1))
+shift $((OPTIND - 1))
 
-echo "$file_type" > .record-file-type
-if [ ! -z $1 ]
-then
-    mkdir -p "$1"
-    echo "$1" > .record-dir
+echo "$file_type" >.record-file-type
+if [ ! -z $1 ]; then
+    mkdir -p "$1/architecture-decision-records" "$1/technical-debts-records"
+    echo "$1" >.record-dir
 fi
 
-VISUAL=true RECORD_TEMPLATE="$record_template_dir/init.$file_type" \
-      "$record_bin_dir/record-new" record-architecture-decisions
+VISUAL=true RECORD_TEMPLATE="$record_template_dir/adr-init.$file_type" \
+    "$record_bin_dir/record-new" record-architecture-decisions
+
+VISUAL=true RECORD_TEMPLATE="$record_template_dir/tdr-init.$file_type" \
+    "$record_bin_dir/record-new" record-architecture-decisions

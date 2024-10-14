@@ -2,4 +2,4 @@
 set -e
 eval "$("$(dirname "$0")"/record-config)"
 
-"$record_bin_dir/adr-list" | grep "$1" | head -1
+"$record_bin_dir/record-list" | grep "$1" | head -1

@@ -27,6 +27,6 @@ awk -v current_status="$current_status" '
 		after_blank=0
 	}
 	{ print }
-' "$file" > "$file.tmp"
+' "$file" >"$file.tmp"
 
 mv "$file.tmp" "$file"

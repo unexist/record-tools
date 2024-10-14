@@ -2,10 +2,10 @@
 set -e
 eval "$($(dirname $0)/record-config)"
 
-## usage: adr generate toc [-i INTRO] [-o OUTRO] [-p LINK_PREFIX]
+## usage: record generate toc [-i INTRO] [-o OUTRO] [-p LINK_PREFIX]
 ##
-## Generates a table of contents in project format (Markdown or
-## Asciidoc) to stdout.
+## Generates a table of contents in project format (Asciidoc or
+## Markdown) to stdout.
 ##
 ## Options:
 ##
@@ -21,26 +21,25 @@ set -- $args
 
 link_prefix=
 
-for arg
-do
-    case "$arg"
-    in
-        -i)
-            intro="$2"
-            shift 2
-            ;;
-        -o)
-            outro="$2"
-            shift 2
-            ;;
-        -p)
-            link_prefix="$2"
-            shift 2
-            ;;
-        --)
-            shift
-            break
-            ;;
+for arg; do
+    case "$arg" in
+
+    -i)
+        intro="$2"
+        shift 2
+        ;;
+    -o)
+        outro="$2"
+        shift 2
+        ;;
+    -p)
+        link_prefix="$2"
+        shift 2
+        ;;
+    --)
+        shift
+        break
+        ;;
     esac
 done
 
@@ -49,22 +48,19 @@ $("$record_bin_dir/_record_text_header" 1 'Architecture Decision Records')
 
 EOF
 
-if [ ! -z $intro ]
-then
+if [ ! -z $intro ]; then
     cat "$intro"
     echo
 fi
 
-for f in $("$record_bin_dir/record-list")
-do
+for f in $("$record_bin_dir/record-list"); do
     title=$("$record_bin_dir/_record_title" $f)
     link=${link_prefix}$(basename $f)
 
     echo "* $("$record_bin_dir/_record_text_link" "$title" "$link")"
 done
 
-if [ ! -z $outro ]
-then
+if [ ! -z $outro ]; then
     echo
     cat "$outro"
 fi

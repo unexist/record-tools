@@ -26,11 +26,10 @@ eval "$("$(dirname "$0")"/record-config)"
 ##     adr help generate toc
 
 cmd=$1
-echo $record_bin_dir > log.1
-echo $cmd >> log.1
+echo $record_bin_dir >log.1
+echo $cmd >>log.1
 
-if [ -z $cmd ]
-then
+if [ -z $cmd ]; then
     (cd "$record_bin_dir" && find . -name '_record_generate_*') | cut -c 17-
 else
     "$record_bin_dir/_record_generate_$cmd" "${@:2}"

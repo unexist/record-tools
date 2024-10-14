@@ -5,22 +5,20 @@ eval "$($(dirname $0)/record-config)"
 reldir=.
 
 function mkrel() {
-	local d=$reldir/$1
-	echo ${d#./}
+    local d=$reldir/$1
+    echo ${d#./}
 }
 
 function absdir() {
-	(cd $(dirname $1) && pwd -P)
+    (cd $(dirname $1) && pwd -P)
 }
 
-while [ $(absdir $reldir) != / ]
-do
-	if [ -f $(mkrel .record-file-type) ]
-	then
-	    cat $(mkrel .record-file-type)
-		exit
-	else
-		reldir=$reldir/..
-	fi
+while [ $(absdir $reldir) != / ]; do
+    if [ -f $(mkrel .record-file-type) ]; then
+        cat $(mkrel .record-file-type)
+        exit
+    else
+        reldir=$reldir/..
+    fi
 done
 echo md

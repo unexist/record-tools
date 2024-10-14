@@ -47,13 +47,15 @@ for arg; do
     esac
 done
 
+record_type_up=$(echo $record_type | tr '[:lower:]' '[:upper:]')
+
 cat <<EOF
-$("$record_bin_dir/_record_text_header" "${record_type}" 'Architecture Decision Records')
+$("$record_bin_dir/_record_text_header" "${record_type}" 1 "${record_type_up} records")
 
 EOF
 
 if [ ! -z $intro ]; then
-    cat "$intro"
+    cat "${intro}"
     echo
 fi
 

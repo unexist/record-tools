@@ -8,10 +8,10 @@ shift
 
 title="$1"
 link="$2"
-file_type="$($record_bin_dir/_record_file_type)"
+file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
 
-if [ "$file_type" = "md" ]; then
-    printf "[%s](%s)" "$title" "$link"
-else
+if [ "$file_type" = "adoc" ]; then
     printf "link:%s[%s]" "$link" "$title"
+else
+    printf "[%s](%s)" "$title" "$link"
 fi

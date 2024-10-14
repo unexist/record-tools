@@ -8,11 +8,11 @@ shift
 
 level=$1
 text="$2"
-file_type="$($record_bin_dir/_record_file_type)"
+file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
 
-if [ "$file_type" = "md" ]; then
-    printf '#%.0s' {1..$level}
-else
+if [ "$file_type" = "adoc" ]; then
     printf '=%.0s' {1..$level}
+else
+    printf '#%.0s' {1..$level}
 fi
 printf ' %s' "$text"

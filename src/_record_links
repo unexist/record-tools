@@ -8,8 +8,8 @@ shift
 
 file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
 
-if [ "$file_type" = "md" ]; then
-    "$record_bin_dir/_record_status" "${record_type}" "$1" | sed -n -E 's/^(.+) \[.*\]\(0*([1-9][0-9]*).*\)/\2=\1/p'
+if [ "$file_type" = "adoc" ]; then
+    "$record_bin_dir/_record_status" "${record_type}" "${1}" | sed -n -E 's/^(.+) link:0*([1-9][0-9]*).*\[.*\]/\2=\1/p'
 else
-    "$record_bin_dir/_record_status" "${record_type}" "$1" | sed -n -E 's/^(.+) link:0*([1-9][0-9]*).*\[.*\]/\2=\1/p'
+    "$record_bin_dir/_record_status" "${record_type}" "${1}" | sed -n -E 's/^(.+) \[.*\]\(0*([1-9][0-9]*).*\)/\2=\1/p'
 fi

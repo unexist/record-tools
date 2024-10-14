@@ -15,7 +15,7 @@ shift
 ##
 ## E.g. to create link record 12 to record 10
 ##
-##     record link 12 Amends 10 "Amended by"
+##     record-adr link 12 Amends 10 "Amended by"
 ##
 
 source="${1:?SOURCE}"

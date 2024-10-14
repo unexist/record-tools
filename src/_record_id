@@ -6,4 +6,4 @@ eval "$("$(dirname "$0")"/record-config)"
 record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
 shift
 
-grep -E '= [0-9]+.*$' $("$record_bin_dir/_record_file" "${record_type}" "$1") | cut -c 3- | cut -d . -f 1
+grep -E '= [0-9]+.*$' $("$record_bin_dir/_record_file" "${record_type}" "${1}") | cut -c 3- | cut -d . -f 1

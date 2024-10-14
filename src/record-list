@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+eval "$("$(dirname "$0")"/record-config)"
+
+## usage: adr list
+##
+## Lists the architecture decision records
+
+record_dir="$("$record_bin_dir/_record_dir")"
+
+if [ -d $record_dir ]
+then
+   find $record_dir | grep -E "^$record_dir/[0-9]+-[^/]*\\.$record_file_type" | sort
+else
+    echo "The $record_dir directory does not exist"
+    exit 1
+fi
+

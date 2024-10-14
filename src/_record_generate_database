@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+eval "$("$(dirname "$0")"/record-config)"
+
+source "$(dirname $0)/_record_database"
+
+## usage: record generate database
+##
+## Generates a database with all fields from the ADR
+
+createDatabase
+populateDatabase

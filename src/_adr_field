@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-eval "$("$(dirname "$0")"/adr-config)"
-
-grep "^| $1" "$("$adr_bin_dir/_adr_file" "$2")" | cut -d '|' -f 3 | tr -d ' |'

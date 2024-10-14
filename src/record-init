@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+eval "$($(dirname $0)/record-config)"
+
+## usage: record init [-t FILETYPE] [DIRECTORY]
+##
+## Initialises the directory of architecture decision records:
+##
+##  * creates a subdirectory of the current working directory
+##  * creates the first ADR in that subdirectory, recording the decision to
+##    record architectural decisions with ADRs.
+##
+## If the DIRECTORY is not given, the ADRs are stored in the directory `doc/adr`.
+##
+## Options:
+##
+## -t FILE_TYPE
+##                 Uses the specified file type.
+##                 FILE_TYPE is md (for markdown, default) or adoc (asciidoc).
+file_type='md'
+
+while getopts t: arg
+do:
+    case "$arg" in
+		    t)
+		        if [ "$OPTARG" != "md" ] && [ "$OPTARG" != "adoc" ]
+		        then
+              echo "Unsupported file type: $OPTARG" >&2
+              exit 1
+		        fi
+			      file_type="$OPTARG"
+			      ;;
+        --)
+            break
+            ;;
+        *)
+            echo "Not implemented: $arg" >&2
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+echo "$file_type" > .record-file-type
+if [ ! -z $1 ]
+then
+    mkdir -p "$1"
+    echo "$1" > .record-dir
+fi
+
+VISUAL=true RECORD_TEMPLATE="$record_template_dir/init.$file_type" \
+      "$record_bin_dir/record-new" record-architecture-decisions

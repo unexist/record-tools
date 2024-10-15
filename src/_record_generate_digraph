@@ -6,7 +6,7 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-## usage: record generate graph [-p LINK_PREFIX] [-e LINK-EXTENSION] RECORD_TYPE
+## usage: record generate digraph [-p LINK_PREFIX] [-e LINK-EXTENSION] RECORD_TYPE
 ##
 ## Generates a visualisation of the links between decision records in
 ## Graphviz format.  This can be piped into the graphviz tools to
@@ -26,12 +26,12 @@ shift
 ##
 ## E.g. to generate a graph visualisation of decision records in SVG format:
 ##
-##     record adr generate graph | dot -Tsvg > graph.svg
+##     record-adr generate digraph | dot -Tsvg > graph.svg
 ##
 ## E.g. to generate a graph visualisation in PDF format, in which all links
 ## are to .pdf files:
 ##
-##    record adr generate graph -e .pdf | dot -Tpdf > graph.pdf
+##    record-adr generate digraph -e .pdf | dot -Tpdf > graph.pdf
 
 link_prefix=
 link_extension=.html

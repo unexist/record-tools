@@ -86,8 +86,14 @@ template="$RECORD_TEMPLATE"
 
 if [ -z "${template}" ]; then
     template="${dstdir}/templates/${record_type}-template.${file_type}"
+
     if [ ! -f "$template" ]; then
-        template="${record_template_dir}/${record_type}-template.${file_type}"
+        template_dir=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-template-dir")
+        template="${template_dir}/${record_type}-template.${file_type}"
+
+        if [ ! -f "$template" ]; then
+            template="${record_template_dir}/${record_type}-template.${file_type}"
+        fi
     fi
 fi
 

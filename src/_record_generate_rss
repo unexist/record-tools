@@ -3,7 +3,7 @@ set -e
 eval "$("$(dirname "$0")"/record-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 source "$(dirname $0)/_record_database"

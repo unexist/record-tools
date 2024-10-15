@@ -47,7 +47,7 @@ function populateDatabase() {
                 prio_of_sever=$("$record_bin_dir/_record_field" "Severity" "${link}")
             fi
 
-            insertIntoDatabase "$id" "${rec_type}" "${title}" "${link}" "${proposed}" "${decision}" "${status}" "${prio_of_sever}"
+            insertIntoDatabase "$id" "${rec_type}" "${title}" "${link}" "${proposed}" "${decision}" "${status}" "${prio_or_sever}"
         done
     done
 }

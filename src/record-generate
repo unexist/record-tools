@@ -2,8 +2,7 @@
 set -e
 eval "$("$(dirname "$0")"/record-config)"
 
-# Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 ## usage: record generate RECORD_TYPE [REPORT [OPTION ...]]
@@ -34,7 +33,7 @@ echo $record_bin_dir >log.1
 echo $cmd >>log.1
 
 if [ -z $cmd ]; then
-    (cd "$record_bin_dir" && find . -name '_record_generate_*') | cut -c 17-
+    (cd "$record_bin_dir" && find . -name '_record_generate_*') | cut -c 20-
 else
     "$record_bin_dir/_record_generate_$cmd" "${record_type}" "${@:2}"
 fi

@@ -1,0 +1,49 @@
+#!/bin/bash
+set -e
+eval "$("$(dirname "$0")"/record-config)"
+
+# Handle record type
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
+shift
+
+reldir=.
+
+function mkrel() {
+    local d=$reldir/$1
+    echo ${d#./}
+}
+
+function absdir() {
+    (cd $(dirname $1) && pwd -P)
+}
+
+function fromdotfile() {
+    while [ "$(absdir "${reldir}")" != / ]; do
+        if [ -f $(mkrel "${1}") ]; then
+            mkrel $(cat $(mkrel "${1}"))
+            exit
+        else
+            reldir=$reldir/..
+        fi
+    done
+    echo "${2}"
+}
+
+case "$1" in
+    .record-dir)
+        # Default path
+        record_default_dir="architecture-decision-records"
+        if [ "tdr" = "${record_type}" ]; then
+            record_default_dir="technical-debts-records"
+        fi
+
+        fromdotfile ".record-dir-${record_type}" "doc/${record_default_dir}"
+        ;;
+    .record-template-dir)
+        fromdotfile ".record-dir-templates" "${record_template_dir}"
+        ;;
+    .record-file-type)
+        fromdotfile ".record-file-type" "adoc"
+        ;;
+esac
+

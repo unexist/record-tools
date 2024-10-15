@@ -3,14 +3,14 @@ set -e
 eval "$("$(dirname "$0")"/record-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 source "$(dirname $0)/_record_database"
 
-## usage: record generate database
+## usage: record generate database RECORD_TYPE
 ##
-## Generates a database with all fields from the ADR
+## Generates a database with all fields from the records
 
 createDatabase
 populateDatabase

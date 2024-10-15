@@ -2,7 +2,7 @@
 eval "$($(dirname $0)/adr-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 cmds=("$@")

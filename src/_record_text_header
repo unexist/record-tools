@@ -3,12 +3,12 @@ set -e
 eval "$($(dirname $0)/record-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 level=$1
 text="$2"
-file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
+file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 
 if [ "$file_type" = "adoc" ]; then
     printf '=%.0s' {1..$level}

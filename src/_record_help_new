@@ -3,10 +3,10 @@ set -e
 eval "$($(dirname $0)/record-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
+file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 
 cat <<ENDHELP
 usage: record new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] RECORD_TYPE TITLE_TEXT...

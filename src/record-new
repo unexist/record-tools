@@ -3,7 +3,7 @@ set -e
 eval "$($(dirname $0)/record-config)"
 
 # Handle record type
-record_type=$(echo $1 | tr '[:upper:]' '[:lower:]')
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
 ## usage: record new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] RECORD_TYPE TITLE_TEXT...
@@ -80,10 +80,11 @@ while getopts s:l: arg; do
 done
 shift $((OPTIND - 1))
 
-dstdir=$("$record_bin_dir/_record_dir" "${record_type}")
-file_type=$("$record_bin_dir/_record_file_type" "${record_type}")
+dstdir=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-dir")
+file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 template="$RECORD_TEMPLATE"
-if [ -z $template ]; then
+
+if [ -z "${template}" ]; then
     template="${dstdir}/templates/${record_type}-template.${file_type}"
     if [ ! -f "$template" ]; then
         template="${record_template_dir}/${record_type}-template.${file_type}"
@@ -92,7 +93,7 @@ fi
 
 title="$@"
 
-if [ -z "$title" ]; then
+if [ -z "${title}" ]; then
     echo ERROR: no title given
     exit 1
 fi

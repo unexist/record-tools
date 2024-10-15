@@ -41,10 +41,10 @@ function populateDatabase() {
             local decision=$("$record_bin_dir/_record_field" "${rec_type}" "Decision Date" "${link}")
             local status=$("$record_bin_dir/_record_field" "${rec_type}" "Status" "${link}")
 
-            local prio_or_sever=$("$record_bin_dir/_record_field" "Priority" "${link}")
+            local prio_or_sever=$("$record_bin_dir/_record_field" "${rec_type}" "Priority" "${link}")
 
             if [ -z "${prio_or_sever}" ]; then
-                prio_of_sever=$("$record_bin_dir/_record_field" "Severity" "${link}")
+                prio_or_sever=$("$record_bin_dir/_record_field" "${rec_type}" "Severity" "${link}")
             fi
 
             insertIntoDatabase "$id" "${rec_type}" "${title}" "${link}" "${proposed}" "${decision}" "${status}" "${prio_or_sever}"

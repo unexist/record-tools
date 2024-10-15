@@ -6,7 +6,7 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-## usage: record generate digraph [-p LINK_PREFIX] [-e LINK-EXTENSION] RECORD_TYPE
+## usage: record generate plantuml [-p LINK_PREFIX] [-e LINK-EXTENSION] RECORD_TYPE
 ##
 ## Generates a visualisation of the links between decision records in
 ## Graphviz format.  This can be piped into the graphviz tools to

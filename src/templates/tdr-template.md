@@ -11,8 +11,8 @@
 | References:    |                                           |
 | Severity:      | low                                       |
 
-NOTE: *Status types:* identified | analyzed | approved | in progress | resolved | closed | rejected | superceded +
-      *Severity:* low | medium | high | critical
+> *Status types:* identified | analyzed | approved | in progress | resolved | closed | rejected | superseded +
+> *Severity:* low | medium | high | critical
 
 ## Context
 

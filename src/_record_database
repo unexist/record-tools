@@ -33,9 +33,9 @@ EOF
 function populateDatabase() {
     for rec_type in adr tdr; do
         for file in $("$record_bin_dir/record-list" "${rec_type}"); do
-            local id=$("$record_bin_dir/_record_id" "${rec_type}" ${file})
-            local title=$("$record_bin_dir/_record_title" "${rec_type}" ${file})
-            local link=${link_prefix}$(basename ${file})
+            local id=$("$record_bin_dir/_record_id" "${rec_type}" "${file}")
+            local title=$("$record_bin_dir/_record_title" "${rec_type}" "${file}")
+            local link=${link_prefix}$(basename "${file}")
 
             local proposed=$("$record_bin_dir/_record_field" "${rec_type}" "Proposed Date" "${link}")
             local decision=$("$record_bin_dir/_record_field" "${rec_type}" "Decision Date" "${link}")

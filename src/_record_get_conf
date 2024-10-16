@@ -43,7 +43,7 @@ case "$1" in
         fromdotfile ".record-dir-templates" "${record_template_dir}"
         ;;
     .record-file-type)
-        fromdotfile ".record-file-type" "adoc"
+        fromdotfile ".record-file-type" "adr"
         ;;
 esac
 

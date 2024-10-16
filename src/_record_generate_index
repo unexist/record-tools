@@ -16,35 +16,38 @@ file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-ty
 ## Generates an index and a table of contents in asciidoc
 
 function listByFieldWhereX() {
+    record_dir=$(basename $("$record_bin_dir/_record_get_conf" "${record_type}" ".record-dir"))
+
     if [ "adoc" = "${file_type}" ]; then
         cat <<EOF
-== $1
+== ${1}
 
 [cols="3,1,1,1,1", options="header"]
 |===
 |Name|Proposed Date|Decision Date|Status|Priority
-$(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
+$(selectFromDatabase "SELECT '|<<${record_dir}/' || link || '#, ' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
 |===
 
 EOF
     else
         cat <<EOF
-## $1
+## ${1}
 
 |Name|Proposed Date|Decision Date|Status|Priority
 $(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
-|===
 
 EOF
     fi
 }
 
 function includeAllRecords() {
+    record_dir=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-dir")
+
     if [ "adoc" = "${file_type}" ]; then
         cat <<EOF
 == Full record List
 
-$(selectFromDatabase "SELECT 'include::decisions/' || link || '[leveloffset=2]' || char(13) || char(13) FROM records WHERE record_type = '${record_type}' ORDER BY id")
+$(selectFromDatabase "SELECT 'include::${record_dir}/' || link || '[leveloffset=2]' || char(13) || char(13) FROM records WHERE record_type = '${record_type}' ORDER BY id")
 
 EOF
     fi
@@ -65,28 +68,32 @@ EOF
 # List by SLA
 listByFieldWhereX "List of all ${record_type_up} due in 14 day" "status = 'proposed' and date('now') < date(proposed, '+14 day')"
 
-# List by status
-listByFieldWhereX "List of all drafted ${record_type_up}" "status = 'drafted'"
+if [ "adr" = "${record_type}" ]; then
+    # List by status
+    for adr_type in drafted proposed rejected accepted deprecated superceded rejected; do
+        listByFieldWhereX "List of all ${adr_type} ${record_type_up}" "status = '${adr_type}'"
+    done
 
-listByFieldWhereX "List of all proposed ${record_type_up}" "status = 'proposed'"
+    # List by priority
+    for adr_prio in low medium high; do
+        listByFieldWhereX "List of all ${record_type_up} with ${adr_prio} priority" "prio_or_sever = '${adr_prio}'"
+    done
+elif [ "tdr" = "${record_type}" ]; then
+    # List by status
+    for tdr_type in identified analyzed approved "in progress" resolved closed rejected superceded; do
+        listByFieldWhereX "List of all ${tdr_type} ${record_type_up}" "status = '${tdr_type}'"
+    done
 
-listByFieldWhereX "List of all accepted ${record_type_up}" "status = 'accepted'"
-
-listByFieldWhereX "List of all superseded ${record_type_up}" "status = 'superseded'"
-
-listByFieldWhereX "List of all rejected ${record_type_up}" "status = 'rejected'"
-
-# List by priority
-listByFieldWhereX "List of all ${record_type_up} with low priority" "prio_or_sever = 'low'"
-
-listByFieldWhereX "List of all ${record_type_up} with medium priority" "prio_or_sever = 'medium'"
-
-listByFieldWhereX "List of all ${record_type_up} with high priority" "prio_or_sever = 'high'"
+    # List by priority
+    for tdr_sever in low medium high critical; do
+        listByFieldWhereX "List of all ${record_type_up} with ${tdr_sever} severity" "prio_or_sever = '${tdr_sever}'"
+    done
+fi
 
 # All
 listByFieldWhereX "List of all ${record_type_up}" "status = status"
 
-includeAllRecords
+#includeAllRecords
 
 # Use last-update-label of generated index
 cat <<EOF

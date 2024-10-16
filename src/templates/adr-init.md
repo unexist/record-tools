@@ -11,7 +11,7 @@
 | References:    |                                           |
 | Priority:      | high                                      |
 
-INFO: *Status types:* drafted | proposed | rejected | accepted | deprecated | superseded +
+INFO: *Status types:* drafted | proposed | rejected | accepted | deprecated | superceded +
       *Priority:* low | medium | high
 
 ## Context

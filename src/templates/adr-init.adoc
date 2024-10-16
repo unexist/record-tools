@@ -11,7 +11,7 @@
 | Priority:      | high
 |===
 
-NOTE: *Status types:* drafted | proposed | rejected | accepted | deprecated | superseded +
+NOTE: *Status types:* drafted | proposed | rejected | accepted | deprecated | superceded +
       *Priority:* low | medium | high
 
 == Context

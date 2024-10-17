@@ -1,12 +1,39 @@
 = Example
 
-:1: https://gitlab.com/
-:2: https://confluence.com/
+:1: https://maven.apache.org/what-is-maven.html
+:2: https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview?homepageId=315719687
+:3: https://gitlab.com/
+:4: https://confluence.com/
+:5: https://docker.com
+:6: https://podman.io
 
-This directory contains an example how the tools can be used to generate documentation via
-{1}[Gitlab] and successfully deploy them to a {2}[Confluence] instance.
+This directory contains an example how the tools can be used with the help of {1}[Maven] and the
+{2}[Confluence Publisher] to generate documentation via {3}[Gitlab] and successfully deploy them to
+a {4}[Confluence] instance.
+
+== Commands
+
+|===
+| Make target | What does it do?
+
+| generate
+| Generate documentation locally
+
+| publish
+| Publish documentation to configured Confluence instance
+
+| docker
+| Create {5}[Docker] container and publish it on the hub
+
+| podman
+| Create {6}[Podman] container and publish it on the hub
+|===
 
 == Links
 
 - {1}
 - {2}
+- {3}
+- {4}
+- {5}
+- {6}

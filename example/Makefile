@@ -6,14 +6,39 @@ IMAGE_NAME := record-builder
 		exit 1; \
 	fi
 
-build:
+--check-%:
+	@if [ "`command -v ${*}`" = "" ]; then \
+		echo "Command ${*} not found in path";  \
+		exit 1; \
+	fi
+
+# Container
+build: --check-podman
 	podman build -t $(IMAGE_NAME) -f Containerfile
 
-docker-push: --guard-VERSION build
+docker-push: --guard-VERSION build --check-podman
 	podman login docker.io
 	podman push $(IMAGE_NAME):latest docker.io/$(USER)/$(IMAGE_NAME):$(VERSION)
 
-gitlab-push: --guard-REGISTRY_URL --guard-VERSION build
+gitlab-push: --guard-REGISTRY_URL --guard-REGISTRY-PATH --guard-VERSION build --check-podman
 	podman login $(REGISTRY_URL)
 	podman push --tls-verify=false  \
-		$(IMAGE_NAME):latest $(REGISTRY_URL)/documentation/cesentry-architecture/$(IMAGE_NAME):$(VERSION)
+		$(IMAGE_NAME):latest $(REGISTRY_URL)/$(REGISTRY_PATH)/$(IMAGE_NAME):$(VERSION)
+
+# Docs
+generate: --check-mvn
+	mvn -P generate-docs generate-resources
+
+publish: --guard-USER --guard-TOKEN --check-mvn
+	CONFLUENCE_USER=$(USER) CONFLUENCE_TOKEN=$(TOKEN) mvn -P generate-docs-and-publish generate-resources
+
+docs: mvn
+	@echo
+	@echo "*********************************************************"
+	@echo "*                                                       *"
+	@echo "* Documentation can be found here:                      *"
+	@echo "* ./target/static/documentation/$(INDEX_FILE).html *"
+	@echo "*                                                       *"
+	@echo "*********************************************************"
+	@echo
+

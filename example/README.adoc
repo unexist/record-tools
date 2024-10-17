@@ -4,8 +4,8 @@
 :2: https://confluence-publisher.atlassian.net/wiki/spaces/CPD/overview?homepageId=315719687
 :3: https://gitlab.com/
 :4: https://confluence.com/
-:5: https://docker.com
-:6: https://podman.io
+:5: https://podman.io
+:6: https://hub.docker.com
 
 This directory contains an example how the tools can be used with the help of {1}[Maven] and the
 {2}[Confluence Publisher] to generate documentation via {3}[Gitlab] and successfully deploy them to
@@ -14,7 +14,7 @@ a {4}[Confluence] instance.
 == Commands
 
 |===
-| Make target | What does it do?
+| Make targets | What does it do?
 
 | generate
 | Generate documentation locally
@@ -22,11 +22,14 @@ a {4}[Confluence] instance.
 | publish
 | Publish documentation to configured Confluence instance
 
-| docker
-| Create {5}[Docker] container and publish it on the hub
+| build
+| Create {5}[Podman] container and publish it on the hub
 
-| podman
-| Create {6}[Podman] container and publish it on the hub
+| docker-push
+| Push container to {6}[Docker Hub]
+
+| gitlab-push
+| Push container to Gitlab registry
 |===
 
 == Links

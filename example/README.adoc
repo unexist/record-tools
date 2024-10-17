@@ -1,0 +1,12 @@
+= Example
+
+:1: https://gitlab.com/
+:2: https://confluence.com/
+
+This directory contains an example how the tools can be used to generate documentation via
+{1}[Gitlab] and successfully deploy them to a {2}[Confluence] instance.
+
+== Links
+
+- {1}
+- {2}

@@ -30,6 +30,12 @@ a {4}[Confluence] instance.
 
 | gitlab-push
 | Push container to Gitlab registry
+
+| open-adr
+| Open generated html pages for ADR in browser
+
+| open-tdr
+| Open generated html pages for TDR in browser
 |===
 
 == Links

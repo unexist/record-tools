@@ -1,13 +1,15 @@
 = 1. Record technical debts decisions
 
+:1: https://unexist.blog/myself/2021/08/18/learnings-from-using-adr-in-a-real-project.html
+
 |===
-| Proposed Date: | DATE
-| Decision Date: | ?
-| Proposer:      | NAMES
-| Deciders:      | ?
-| Status:        | identified
-| Issues:        | ?
-| References:    |
+| Proposed Date: | 2024-10-18
+| Decision Date: | 2024-10-18
+| Proposer:      | Christoph Kappel
+| Deciders:      | Christoph Kappel
+| Status:        | analyzed
+| Issues:        | none
+| References:    | none
 | Severity:      | high
 |===
 
@@ -26,9 +28,7 @@ We need to record the technical debts made on this project.
 
 == Proposed Solution
 
-Technical Debts Records as
-link:https://github.com/ms1963/TechnicalDebtRecords/[described by Michael Stal]
-might help us as a format.
+Technical Debts Records as {1}[described by Christoph] might help us as a format.
 
 == Decision
 
@@ -42,7 +42,6 @@ We will use Technical Debts Records.
 
 == Further Information
 
-See the Michael Stal's repository, linked above.
-For a lightweight toolset, see Michael Stal's link:https://github.com/ms1963/TechnicalDebtRecords/[tdr-tools]
+None foreseeable.
 
 == Comments

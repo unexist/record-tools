@@ -1,6 +1,7 @@
 = 1. Record architecture decisions
 
 |===
+| Proposed Date: | DATE
 | Decision Date: | ?
 | Author:        | NAMES
 | Status:        | analyzed

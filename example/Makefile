@@ -27,18 +27,24 @@ gitlab-push: --guard-REGISTRY_URL --guard-REGISTRY-PATH --guard-VERSION build --
 
 # Docs
 generate: --check-mvn
-	mvn -P generate-docs generate-resources
+	mvn -P generate-docs exec:exec generate-resources
 
 publish: --guard-USER --guard-TOKEN --check-mvn
-	CONFLUENCE_USER=$(USER) CONFLUENCE_TOKEN=$(TOKEN) mvn -P generate-docs-and-publish generate-resources
+	CONFLUENCE_USER=$(USER) CONFLUENCE_TOKEN=$(TOKEN) mvn -P generate-docs-and-publish exec:exec generate-resources
+
+open-adr:
+	open ./target/static/documentation/architecture-decision-records.html
+
+open-tdr:
+	open ./target/static/documentation/technical-debts-records.html
 
 docs: mvn
 	@echo
-	@echo "*********************************************************"
-	@echo "*                                                       *"
-	@echo "* Documentation can be found here:                      *"
-	@echo "* ./target/static/documentation/$(INDEX_FILE).html *"
-	@echo "*                                                       *"
-	@echo "*********************************************************"
+	@echo "*************************************"
+	@echo "*                                   *"
+	@echo "* Documentation can be found here:  *"
+	@echo "* ./target/static/documentation/	   *"
+	@echo "*                                   *"
+	@echo "*************************************"
 	@echo
 

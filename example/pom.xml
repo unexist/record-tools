@@ -78,9 +78,9 @@
                     <arguments>
                         <argument>-c</argument>
                         <argument>
-                            ${basedir}/record-tools/record-adr generate database;
-                            ${basedir}/record-tools/record-adr generate index > ${basedir}/src/site/asciidoc/_adr_autogen.adoc;
-                            ${basedir}/record-tools/record-tdr generate index > ${basedir}/src/site/asciidoc/_tdr_autogen.adoc
+                            ${basedir}/../src/record-adr generate database;
+                            ${basedir}/../src/record-adr generate index > ${basedir}/src/site/asciidoc/_adr_autogen.adoc;
+                            ${basedir}/../src/record-tdr generate index > ${basedir}/src/site/asciidoc/_tdr_autogen.adoc
                         </argument>
                     </arguments>
                 </configuration>

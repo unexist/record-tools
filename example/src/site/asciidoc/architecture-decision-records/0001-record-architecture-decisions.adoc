@@ -1,6 +1,6 @@
 = 1. Record architecture decisions
 
-:1: https://unexist.blog/myself/2021/08/18/learnings-from-using-adr-in-a-real-project.html
+:1: https://unexist.blog/documentation/2024/10/19/decision-records.html
 
 |===
 | Proposed Date: | 2024-10-18
@@ -22,7 +22,7 @@ We need to record the architectural decisions made on this project.
 
 == Proposed Solution
 
-Architecture Decision Records as {1}[described by Christoph] might help us as a format.
+Architecture Decision Records as {1}[summarised by Christoph] might help us as a format.
 
 == Decision
 

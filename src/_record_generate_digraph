@@ -58,20 +58,23 @@ function index() {
     basename "$1" | sed -e 's/-.*//' | sed -e 's/^0*//'
 }
 
-echo "digraph {"
-echo "  node [shape=plaintext];"
+cat << EOF
+digraph {
+    node [shape=plaintext];
 
-echo "  subgraph {"
+    subgraph {
+EOF
+
 for f in $("$record_bin_dir/record-list" "${record_type}"); do
     n=$(index "$f")
     title=$("$record_bin_dir/_record_title" "${record_type}" ${f})
 
-    echo "    _$n [label=\"$title\"; URL=\"${link_prefix}$(basename $f ".$file_type")${link_extension}\"];"
+    echo "        _$n [label=\"$title\"; URL=\"${link_prefix}$(basename $f ".$file_type")${link_extension}\"];"
     if [ $n -gt 1 ]; then
-        echo "    _$(($n - 1)) -> _$n [style=\"dotted\", weight=1];"
+        echo "        _$(($n - 1)) -> _$n [style=\"dotted\", weight=1];"
     fi
 done
-echo "  }"
+echo "    }"
 
 for f in $("$record_bin_dir/record-list" "${record_type}"); do
     n=$(index "$f")

@@ -80,7 +80,7 @@
                         <argument>
                             ${basedir}/../src/record-adr generate database;
                             ${basedir}/../src/record-adr generate index > ${basedir}/src/site/asciidoc/_adr_autogen.adoc;
-                            ${basedir}/../src/record-tdr generate index > ${basedir}/src/site/asciidoc/_tdr_autogen.adoc
+                            ${basedir}/../src/record-tdr generate index > ${basedir}/src/site/asciidoc/_tdr_autogen.adoc;
                         </argument>
                     </arguments>
                 </configuration>
@@ -107,6 +107,7 @@
                         <configuration>
                             <sourceDirectory>${sourceDirectory}</sourceDirectory>
                             <outputDirectory>${outputDirectory}</outputDirectory>
+                            <preserveDirectories>true</preserveDirectories>
                             <attributes>
                                 <!-- Uses the <img src="data:image/png;base64> syntax for diagrams -->
                                 <data-uri/>

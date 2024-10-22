@@ -3,8 +3,8 @@
 :1: https://unexist.blog/documentation/myself/2024/10/22/decision-records.html
 
 |===
-| Proposed Date: | 2024-10-18
-| Decision Date: | 2024-10-18
+| Proposed Date: | 2024-10-22
+| Decision Date: | 2024-10-22
 | Proposer:      | Christoph Kappel
 | Deciders:      | Christoph Kappel
 | Status:        | accepted

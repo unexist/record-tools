@@ -30,13 +30,13 @@ This template follows the style described by Michael Nygard in this article.
 Options:
 
 -s SUPERCEDED   A reference (number or partial filename) of a previous
-                decision that the new decision supercedes. A Markdown link
+                decision that the new decision supercedes. A link
                 to the superceded record is inserted into the Status section.
-                The status of the superceded ADR is changed to record that
-                it has been superceded by the new ADR.
+                The status of the superceded record is changed to record that
+                it has been superceded by the new record.
 
 -l TARGET:LINK:REVERSE-LINK
-                Links the new recordto a previous record.
+                Links the new record to a previous record.
                 TARGET is a reference (number or partial filename) of a
                 previous decision.
                 LINK is the description of the link created in the new record.

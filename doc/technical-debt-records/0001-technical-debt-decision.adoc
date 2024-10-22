@@ -1,4 +1,4 @@
-= 1. Record technical debts decisions
+= 1. Record technical debt decisions
 
 |===
 | Proposed Date: | DATE
@@ -26,13 +26,13 @@ We need to record the technical debts made on this project.
 
 == Proposed Solution
 
-Technical Debts Records as
+Technical Debt Records as
 link:https://github.com/ms1963/TechnicalDebtRecords/[described by Michael Stal]
 might help us as a format.
 
 == Decision
 
-We will use Technical Debts Records.
+We will use Technical Debt Records.
 
 == Cost of Delay
 

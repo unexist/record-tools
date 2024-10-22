@@ -36,7 +36,7 @@ open-adr:
 	open ./target/static/documentation/architecture-decision-records.html
 
 open-tdr:
-	open ./target/static/documentation/technical-debts-records.html
+	open ./target/static/documentation/technical-debt-records.html
 
 docs: mvn
 	@echo

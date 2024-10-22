@@ -1,4 +1,4 @@
-= Technical Debts Records
+= Technical Debt Records
 
 :description: This document lists decisions related to technical debts.
 :toclevels: 2

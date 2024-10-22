@@ -1,6 +1,6 @@
 = 1. Record technical debt decisions
 
-:1: https://unexist.blog/documentation/2024/10/19/decision-records.html
+:1: https://unexist.blog/documentation/myself/2024/10/22/decision-records.html
 
 |===
 | Proposed Date: | 2024-10-18

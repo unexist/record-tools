@@ -23,10 +23,10 @@ helpexe="$record_bin_dir/_record_help_$(
 )"
 
 if [ -z "$cmds" -o \( ! -x "$cmdexe" -a ! -x "$helpexe" \) ]; then
-    echo "usage: record help COMMAND [ARG] ..."
+    echo "usage: record-${record_type} help COMMAND [ARG] ..."
     echo "COMMAND is one of: "
     $record_bin_dir/_record_commands | sed 's/^/  /'
-    echo "Run 'record help COMMAND' for help on a specific command."
+    echo "Run 'record-${record_type} help COMMAND' for help on a specific command."
 else
     if [ -x "$helpexe" ]; then
         "$helpexe"

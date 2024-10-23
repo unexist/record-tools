@@ -44,13 +44,17 @@ while getopts t: arg; do
 done
 shift $((OPTIND - 1))
 
-echo "$file_type" >.record-file-type
-if [ ! -z $1 ]; then
-    mkdir -p "${1}/${record_adr_dir}" "${1}/${record_tdr_dir}"
-    echo "${1}/${record_adr_dir}" >.record-adr-dir
-    echo "${1}/${record_tdr_dir}" >.record-tdr-dir
-fi
+cur_dir=${1-.}
+record_adr_dir=$("$record_bin_dir/_record_get_conf" adr ".record-default-dir")
+record_tdr_dir=$("$record_bin_dir/_record_get_conf" tdr ".record-default-dir")
 
+# Setup paths and dotfiles
+mkdir -p "${cur_dir}/${record_adr_dir}" "${cur_dir}/${record_tdr_dir}"
+echo "$(realpath "${cur_dir}/${record_adr_dir}")" > "${cur_dir}/.record-adr-dir"
+echo "$(realpath "${cur_dir}/${record_tdr_dir}")" > "${cur_dir}/.record-tdr-dir"
+echo "$file_type" > "${cur_dir}/.record-file-type"
+
+# Create init records
 VISUAL=true RECORD_TEMPLATE="$record_template_dir/adr-init.$file_type" \
     "$record_bin_dir/record-adr" new architecture-decisions-record
 

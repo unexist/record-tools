@@ -13,8 +13,8 @@ shift
 record_dir="$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-dir")"
 file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 
-if [ -d $record_dir ]; then
-    find $record_dir | grep -E "^$record_dir/[0-9]+-[^/]*\\.$file_type" | sort
+if [ -d "${record_dir}" ]; then
+    find "${record_dir}" | grep -E "^$record_dir/[0-9]+-[^/]*\\.$file_type" | sort
 else
     echo "The $record_dir directory does not exist"
     exit 1

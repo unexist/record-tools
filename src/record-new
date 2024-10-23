@@ -64,7 +64,7 @@ links=()
 while getopts s:l: arg; do
     case "$arg" in
     s)
-        supereded+=("$OPTARG")
+        superseded+=("$OPTARG")
         ;;
     l)
         links+=("$OPTARG")
@@ -104,30 +104,30 @@ if [ -z "${title}" ]; then
     exit 1
 fi
 
-if [ -d $dstdir ]; then
-    maxid=$(ls $dstdir | grep -Eo '^[0-9]+' | sed -e 's/^0*//' | sort -rn | head -1)
-    newnum=$(($maxid + 1))
+if [ -d "${dstdir}" ]; then
+    maxid=$(ls "${dstdir}" | grep -Eo '^[0-9]+' | sed -e 's/^0*//' | sort -rn | head -1)
+    newnum=$((${maxid} + 1))
 else
     newnum=1
 fi
 
-newid=$(printf "%04d" $newnum)
-slug=$(echo -n $title | tr -Ccs [:alnum:] - | tr [:upper:] [:lower:] | sed -e 's/[^[:alnum:]]*$//' -e 's/^[^[:alnum:]]*//')
+newid=$(printf "%04d" ${newnum})
+slug=$(echo -n ${title} | tr -Ccs [:alnum:] - | tr [:upper:] [:lower:] | sed -e 's/[^[:alnum:]]*$//' -e 's/^[^[:alnum:]]*//')
 dstfile=$dstdir/$newid-$slug.$file_type
 date=${RECORD_DATE:-$(date +%Y-%m-%d)}
 
-mkdir -p "$dstdir"
-cat "$template" | sed \
+mkdir -p "${dstdir}"
+cat "${template}" | sed \
     -e "s|NUMBER|$newnum|" \
     -e "s|TITLE|$title|" \
     -e "s|DATE|$date|" \
     -e "s|STATUS|drafted|" \
-    >"$dstfile"
+    > "${dstfile}"
 
 for target in "${superseded[@]}"; do
-    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "Superseded by" "$dstfile"
-    "$record_bin_dir/_record_remove_status" "${record_type}" "accepted" "$target"
-    "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "Supersedes" "$target"
+    "$record_bin_dir/_record_add_link" "${record_type}" "${target}" "Superseded by" "${dstfile}"
+    "$record_bin_dir/_record_set_status" "${record_type}" "superseded" "${target}"
+    "$record_bin_dir/_record_add_link" "${record_type}" "${dstfile}" "Supersedes" "${target}"
 done
 
 for link in "${links[@]}"; do
@@ -135,9 +135,9 @@ for link in "${links[@]}"; do
     forward_link="$(echo "$link" | cut -d : -f 2)"
     reverse_link="$(echo "$link" | cut -d : -f 3)"
 
-    "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "$forward_link" "$target"
-    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$dstfile"
+    "$record_bin_dir/_record_add_link" "${record_type}" "${dstfile}" "${forward_link}" "${target}"
+    "$record_bin_dir/_record_add_link" "${record_type}" "${target}" "${reverse_link}" "${dstfile}"
 done
 
-${VISUAL:-${EDITOR:-true}} $dstfile
-echo $dstfile
+${VISUAL:-${EDITOR:-true}} ${dstfile}
+echo ${dstfile}

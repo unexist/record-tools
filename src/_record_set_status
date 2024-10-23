@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+eval "$($(dirname $0)/record-config)"
+
+# Handle record type
+record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
+shift
+
+status=${1:?Status is unset or null}
+file=$("$record_bin_dir/_record_file" "${record_type}" "${2:?File is unset or null}")
+
+sed -e "s/^| Status:\([ ]*\) | [a-z]*\([ |]*\)/| Status:\1 | ${status}\2/g" "${file}" > "${file}.tmp"
+
+mv "${file}.tmp" "${file}"

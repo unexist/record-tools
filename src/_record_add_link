@@ -6,38 +6,31 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-source=$("$record_bin_dir/_record_file" "${record_type}" "${1:?SOURCE}")
-link_type="${2:?LINK TYPE}"
-target=$("$record_bin_dir/_record_file" "${record_type}" "${3:?TARGET}")
-
+source=$("$record_bin_dir/_record_file" "${record_type}" "${1:?Source is unset or null}")
+link_type="${2:?Link type is unset or null}"
+target=$("$record_bin_dir/_record_file" "${record_type}" "${3:?Target is unset or null}")
 target_title="$("$record_bin_dir/_record_title" "${record_type}" "$target")"
-
-sed -i -e "s#^| ${1}" "$("$record_bin_dir/_record_file" "${record_type}" "${2}")"
-
-
-
- | cut -d '|' -f 3 | tr -d ' |'
 
 awk -v link_type="$link_type" -v target="$(basename $target)" -v target_title="$target_title" '
     BEGIN {
-        in_status_section=0
+        in_info_section=0
     }
     /^##/ {
-        if (in_status_section) {
+        if (in_info_section) {
             print link_type " [" target_title "](" target ")"
             print ""
         }
-        in_status_section=0
+        in_info_section=0
     }
     /^==/ {
-        if (in_status_section) {
+        if (in_info_section) {
             print link_type " link:" target "[" target_title "]"
             print ""
         }
-        in_status_section=0
+        in_info_section=0
     }
-    /^| Status$/ {
-        in_status_section=1
+    /^[=#]{2} Further Information$/ {
+        in_info_section=1
     }
     { print }
 ' "$source" >"$source.tmp"

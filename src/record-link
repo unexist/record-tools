@@ -18,10 +18,15 @@ shift
 ##     record-adr link 12 Amends 10 "Amended by"
 ##
 
-source="${1:?SOURCE}"
-forward_link="${2:?LINK}"
-target="${3:?TARGET}"
-reverse_link="${4:?REVERSE-LINK}"
+source="${1}"
+forward_link="${2}"
+target="${3}"
+reverse_link="${4}"
 
-"$record_bin_dir/_record_add_link" "${record_type}" "$source" "$forward_link" "$target"
-"$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$source"
+if [ -x "$source" ] && [ -x "$forward_link" ] && [ -x "$target" ] && [ -x "$reverse_link" ]; then
+    "$record_bin_dir/_record_add_link" "${record_type}" "$source" "$forward_link" "$target"
+    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$source"
+else
+    "$record_bin_dir"/record-help "${record_type}" link
+    exit 1
+fi

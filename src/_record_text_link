@@ -6,8 +6,8 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-title="$1"
-link="$2"
+title="${1:?Title is unset or null}"
+link="${2:?Link is unset or null}"
 file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 
 if [ "$file_type" = "adoc" ]; then

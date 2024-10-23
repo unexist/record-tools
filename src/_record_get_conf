@@ -14,7 +14,7 @@ function mkrel() {
 }
 
 function absdir() {
-    (cd $(dirname $1) && pwd -P)
+    (cd "$(dirname "$1")" && pwd -P)
 }
 
 function fromdotfile() {

@@ -13,7 +13,7 @@ shift
 ## LINK is the description of the link created in the SOURCE.
 ## REVERSE-LINK is the description of the link created in the TARGET
 ##
-## E.g. to create link record 12 to record 10
+## E.g. to create link ADR 12 to ADR 10
 ##
 ##     record-adr link 12 Amends 10 "Amended by"
 ##
@@ -23,9 +23,9 @@ forward_link="${2}"
 target="${3}"
 reverse_link="${4}"
 
-if [ -x "$source" ] && [ -x "$forward_link" ] && [ -x "$target" ] && [ -x "$reverse_link" ]; then
-    "$record_bin_dir/_record_add_link" "${record_type}" "$source" "$forward_link" "$target"
-    "$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$source"
+if ! [ -z "${source}" ] && ! [ -z "${forward_link}" ] && ! [ -z "${target}" ] && ! [ -z "${reverse_link}" ]; then
+    "$record_bin_dir/_record_add_link" "${record_type}" "${source}" "${forward_link}" "${target}"
+    "$record_bin_dir/_record_add_link" "${record_type}" "${target}" "${reverse_link}" "${source}"
 else
     "$record_bin_dir"/record-help "${record_type}" link
     exit 1

@@ -9,7 +9,7 @@ shift
 cmds=("$@")
 
 if ((${#@} == 1)); then
-    cmdexe="$record_bin_dir/adr-$1"
+    cmdexe="$record_bin_dir/record-$1"
 elif ((${#@} > 1)); then
     cmdexe="$record_bin_dir/_record_$(
         IFS=_
@@ -22,11 +22,11 @@ helpexe="$record_bin_dir/_record_help_$(
     echo "${cmds[*]}"
 )"
 
-if [ -z "$cmds" -o \( ! -x "$cmdexe" -a ! -x "$helpexe" \) ]; then
-    echo "usage: record-${record_type} help COMMAND [ARG] ..."
+if [ -z "$cmds" ] && ! [ -x "$cmdexe" ] && ! [ -x "$helpexe" ]; then
+    echo "usage: record-help COMMAND [ARG] ..."
     echo "COMMAND is one of: "
-    $record_bin_dir/_record_commands | sed 's/^/  /'
-    echo "Run 'record-${record_type} help COMMAND' for help on a specific command."
+    $record_bin_dir/_record_commands "${record_type}" | sed 's/^/  /'
+    echo "Run 'record-help COMMAND' for help on a specific command."
 else
     if [ -x "$helpexe" ]; then
         "$helpexe"

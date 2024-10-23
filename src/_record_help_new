@@ -48,14 +48,14 @@ or link to multiple existing records.
 
 E.g. to create a new record with the title "Use MySQL Database":
 
-    record adr new Use MySQL Database
+    record-adr new Use MySQL Database
 
 E.g. to create a new record that supercedes ADR 12:
 
-    record adr new -s 12 Use PostgreSQL Database
+    record-adr new -s 12 Use PostgreSQL Database
 
 E.g. to create a new ADR that supercedes ADRs 3 and 4, and amends ADR 5:
 
-    record adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
+    record-adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
 
 ENDHELP

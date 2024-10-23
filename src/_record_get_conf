@@ -30,14 +30,18 @@ function fromdotfile() {
 }
 
 case "$1" in
-    .record-dir)
+    .record-default-dir)
         # Default path
         record_default_dir="architecture-decision-records"
         if [ "tdr" = "${record_type}" ]; then
             record_default_dir="technical-debts-records"
         fi
 
-        fromdotfile ".record-dir-${record_type}" "doc/${record_default_dir}"
+        echo $record_default_dir
+        ;;
+    .record-dir)
+        fromdotfile ".record-dir-${record_type}" \
+            "doc/=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-default-dir")"
         ;;
     .record-template-dir)
         fromdotfile ".record-dir-templates" "${record_template_dir}"

@@ -8,6 +8,6 @@ shift
 
 for cmd in $(find "${record_bin_dir}" -name 'record-*'); do
     if [ -x "$cmd" ]; then
-        echo "$cmd" | awk -F '/' '{print $NF}'
+        echo "$(basename $cmd)"
     fi
 done

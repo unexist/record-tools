@@ -28,11 +28,11 @@ shift
 ##
 ## Options:
 ##
-## -s SUPERCEDED   A reference (number or partial filename) of a previous
-##                 decision that the new decision supercedes. A link
-##                 to the superceded ADR is inserted into the Status section.
-##                 The status of the superceded ADR is changed to record that
-##                 it has been superceded by the new ADR.
+## -s SUPERSEDED   A reference (number or partial filename) of a previous
+##                 decision that the new decision supersedes. A link
+##                 to the superseded ADR is inserted into the Status section.
+##                 The status of the superseded ADR is changed to record that
+##                 it has been superseded by the new ADR.
 ##
 ## -l TARGET:LINK:REVERSE-LINK
 ##                 Links the new ADR to a previous ADR.
@@ -42,14 +42,14 @@ shift
 ##                 REVERSE-LINK is the description of the link created in the
 ##                 existing ADR that will refer to the new ADR.
 ##
-## Multiple -s and -l options can be given, so that the new ADR can supercede
-## or link to multiple existing ADRs.
+## Multiple -s and -l options can be given, so that the new record can supersede
+## or link to multiple existing records.
 ##
 ## E.g. to create a new ADR with the title "Use MySQL Database":
 ##
 ##     record-adr new Use MySQL Database
 ##
-## E.g. to create a new ADR that supercedes ADR 12:
+## E.g. to create a new ADR that supersedes ADR 12:
 ##
 ##     record-adr new -s 12 Use PostgreSQL Database
 ##
@@ -58,13 +58,13 @@ shift
 ##     record-adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
 ##
 
-superceded=()
+superseded=()
 links=()
 
 while getopts s:l: arg; do
     case "$arg" in
     s)
-        superceded+=("$OPTARG")
+        supereded+=("$OPTARG")
         ;;
     l)
         links+=("$OPTARG")
@@ -116,24 +116,24 @@ slug=$(echo -n $title | tr -Ccs [:alnum:] - | tr [:upper:] [:lower:] | sed -e 's
 dstfile=$dstdir/$newid-$slug.$file_type
 date=${RECORD_DATE:-$(date +%Y-%m-%d)}
 
-mkdir -p $dstdir
-cat $template | sed \
+mkdir -p "$dstdir"
+cat "$template" | sed \
     -e "s|NUMBER|$newnum|" \
     -e "s|TITLE|$title|" \
     -e "s|DATE|$date|" \
     -e "s|STATUS|drafted|" \
-    >$dstfile
+    >"$dstfile"
 
-for target in "${superceded[@]}"; do
+for target in "${superseded[@]}"; do
     "$record_bin_dir/_record_add_link" "${record_type}" "$target" "Superseded by" "$dstfile"
     "$record_bin_dir/_record_remove_status" "${record_type}" "accepted" "$target"
     "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "Supersedes" "$target"
 done
 
-for l in "${links[@]}"; do
-    target="$(echo $l | cut -d : -f 1)"
-    forward_link="$(echo $l | cut -d : -f 2)"
-    reverse_link="$(echo $l | cut -d : -f 3)"
+for link in "${links[@]}"; do
+    target="$(echo "$link" | cut -d : -f 1)"
+    forward_link="$(echo "$link" | cut -d : -f 2)"
+    reverse_link="$(echo "$link" | cut -d : -f 3)"
 
     "$record_bin_dir/_record_add_link" "${record_type}" "$dstfile" "$forward_link" "$target"
     "$record_bin_dir/_record_add_link" "${record_type}" "$target" "$reverse_link" "$dstfile"

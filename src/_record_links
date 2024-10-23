@@ -6,10 +6,23 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
-
-if [ "$file_type" = "adoc" ]; then
-    "$record_bin_dir/_record_field" "${record_type}" Status "${1}" | sed -n -E 's/^(.+) link:0*([1-9][0-9]*).*\[.*\]/\2=\1/p'
-else
-    "$record_bin_dir/_record_field" "${record_type}" Status "${1}" | sed -n -E 's/^(.+) \[.*\]\(0*([1-9][0-9]*).*\)/\2=\1/p'
-fi
+gawk '
+    BEGIN {
+        in_info_section=0
+    }
+    /^(.+) link:0*([1-9][0-9]*).*\[.*\]/ {
+        if (in_info_section) {
+            print gensub(/^(.+) link:0*([1-9][0-9]*).*\[.*\]/, "\\2=\\1", "g", $0)
+        }
+        in_info_section=0
+    }
+    /^(.+) \[.*\]\(0*([1-9][0-9]*).*\)/ {
+        if (in_info_section) {
+            print gensub(/^(.+) \[.*\]\(0*([1-9][0-9]*).*\)/, "\\1=\\2", "g", $0)
+        }
+        in_info_section=0
+    }
+    /^[=#]{2} Further Information$/ {
+        in_info_section=1
+    }
+' "${1}"

@@ -33,6 +33,6 @@ awk -v link_type="$link_type" -v target="$(basename $target)" -v target_title="$
         in_info_section=1
     }
     { print }
-' "$source" >"$source.tmp"
+' "${source}" >"${source}.tmp"
 
-mv "$source.tmp" "$source"
+mv "${source}.tmp" "${source}"

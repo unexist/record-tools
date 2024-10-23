@@ -6,8 +6,8 @@ eval "$($(dirname $0)/record-config)"
 record_type=$(echo ${1:-adr} | tr '[:upper:]' '[:lower:]')
 shift
 
-for f in $(cd "$record_bin_dir" && find . -name 'record-*'); do
-    if [ -x "$record_bin_dir/$f" ]; then
-        echo "$f" | cut -c 7-
+for cmd in $(find "${record_bin_dir}" -name 'record-*'); do
+    if [ -x "$cmd" ]; then
+        echo "$cmd" | awk -F '/' '{print $NF}'
     fi
 done

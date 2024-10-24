@@ -1,10 +1,10 @@
 = 1. Record architecture decisions
 
-:1: https://unexist.blog/documentation/myself/2024/10/22/decision-records.html
+:1: https://unexist.blog/documentation/myself/2024/10/24/decision-records.html
 
 |===
-| Proposed Date: | 2024-10-22
-| Decision Date: | 2024-10-22
+| Proposed Date: | 2024-10-24
+| Decision Date: | 2024-10-24
 | Proposer:      | Christoph Kappel
 | Deciders:      | Christoph Kappel
 | Status:        | accepted

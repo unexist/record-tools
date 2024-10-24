@@ -11,6 +11,12 @@ source "$(dirname $0)/_record_database"
 
 file_type=$("$record_bin_dir/_record_get_conf" "${record_type}" ".record-file-type")
 
+prio_or_sever="Priority"
+
+if [ "xTDR" = "x${record_type_up}" ]; then
+    prio_or_sever="Severity"
+fi
+
 ## usage: adr generate index
 ##
 ## Generates an index and a table of contents in asciidoc
@@ -24,7 +30,7 @@ function listByFieldWhereX() {
 
 [cols="3,1,1,1,1", options="header"]
 |===
-|Name|Proposed Date|Decision Date|Status|Priority
+|Name|Proposed Date|Decision Date|Status|${prio_or_sever}
 $(selectFromDatabase "SELECT '|<<${record_dir}/' || link || '#, ' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
 |===
 
@@ -33,7 +39,7 @@ EOF
         cat <<EOF
 ## ${1}
 
-|Name|Proposed Date|Decision Date|Status|Priority
+|Name|Proposed Date|Decision Date|Status|${prio_or_sever}
 $(selectFromDatabase "SELECT '|<<' || title || '>>', proposed, decision, status, prio_or_sever || char(13) FROM records WHERE ${2} AND record_type = '${record_type}' ORDER BY id")
 
 EOF
